@@ -39,56 +39,63 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
     ers/srv-sql-demo
     ```
     >El valor del parámetro **ids** se puede obtener con el comando `az resource list -o json`
-  
-  
-  
+
+<br>
+
 ## AZURE CLI - ACTIVE DIRECTORY
 
-Crear service principal, en scopes se completa con el subscriptionid y nombre de recurso/grupo de recursos. Del resultado custodiar las credenciales.
+* Crear service principal.
 
-```
-az ad sp create-for-rbac -n "authapp" --role Contributor --scopes /subscriptions/c8eb5574-f147-4230-978a-06596636cfee/resourceGroups/rg-demo
-```
+    ```
+    az ad sp create-for-rbac -n "authapp" --role Contributor --scopes /subscriptions/c8eb5574-f147-4230-978a-06596636cfee/resourceGroups/rg-demo
+    ```
+    >En el parámetro **scopes** se completa con el **subscriptionid** y nombre de recurso/grupo de recursos
 
-
-	Resultado:
+	*Resultado:*
+    ```json
 	{
-	  "appId": "45311875-f708-44c4-944e-3efdfb50179d",
+	  "appId": "45311875-f708-44c4-944e-xxxxxxxxxxxx",
 	  "displayName": "authapp",
-	  "password": "A.t8Q~SvywgsMfP4o0p6zXENyBl8JooD9QjuBajU",
-	  "tenant": "ee33e044-ed00-4025-bcad-634aa49588db"
+	  "password": "A.t8Q~SvywgsMfP4o0p6xxxxxxxxxxxxxxU",
+	  "tenant": "ee33e044-ed00-4025-bcad-xxxxxxxxxxxx"
 	}
+    ```
+    >Custodiar las credenciales
 
-Obtener lista de apps registrados en ad
-```
-az ad sp list -o table
-```
+* Obtener lista de apps registrados en AAD
+    ```
+    az ad sp list -o table
+    ```
 
-Obtener lista de sp (apps) registrados en ad filtrado por nombre
-```
-az ad sp list --display-name "authapp" -o table
-```
+* Obtener lista de sp (apps) registrados en AAD filtrado por nombre
+    ```
+    az ad sp list --display-name "authapp" -o table
+    ```
 
-Obtener lista de sp (apps) registrados en ad filtrado por nombre y mostrar solo el campo id
-```
-az ad sp list --display-name "authapp" --query [].appId -o table 
-```
+* Obtener lista de sp (apps) registrados en AAD filtrado por nombre y mostrar solo el campo **id**
+    ```
+    az ad sp list --display-name "authapp" --query [].appId -o table 
+    ```
 
-**Nota: Tambien se puede obtener lo mismo con "az ad app list..", dado que al crear un application tambien se crea un service principal.
+    >**Nota**: También se puede obtener lo mismo con el comando `az ad app list..`, dado que al crear un application también se crea un service principal.
 
-Resetear las credeciales de sp por id de sp. El id se peude obtener con el comando "az ad app list -o table" campo AppId
-```
-az ad sp credential reset --id "45311875-f708-44c4-944e-3efdfb50179d"
-```
+* Resetear las credenciales de service principal por su **id**.
+    ```
+    az ad sp credential reset --id "45311875-f708-44c4-944e-3efdfb50179d"
+    ```
+    >El **id** se puede obtener con el comando `az ad app list -o table` campo **AppId**
 
-	**Resultado:
+	*Resultado:*
+    ```json
 	{
-	  "appId": "45311875-f708-44c4-944e-3efdfb50179d",
-	  "password": "ctz8Q~oIZ-k3sdk1UNo5ofmvUlm.WEnpaXTyrcJT",
-	  "tenant": "ee33e044-ed00-4025-bcad-634aa49588db"
+	  "appId": "45311875-f708-44c4-944e-xxxxxxxxxxxx",
+	  "displayName": "authapp",
+	  "password": "A.t8Q~SvywgsMfP4o0p6xxxxxxxxxxxxxxU",
+	  "tenant": "ee33e044-ed00-4025-bcad-xxxxxxxxxxxx"
 	}
 	
-Obtener token
-```
-az account get-access-token previamente haber hecho el az login con sp
-```
+* Obtener token
+    ```
+    az account get-access-token
+    ```
+    >Previamente haber hecho el `az login` con el service principal
