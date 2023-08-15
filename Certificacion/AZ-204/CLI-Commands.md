@@ -1,8 +1,8 @@
-# :computer:Certificación AZ-204
+# :computer:COMANDOS AZURE CLI AZ-204
 
 Este  documento consta comandos de **Azure CLI** principalmente para la gestión de recursos en Azure y otra información relevante que he registrado en este repositorio durante mi preparación para la certificación AZ-204.
 
-## AZURE CLI - GENERAL
+## GENERAL
 
 * Ayuda
   ```bash
@@ -42,7 +42,7 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
 
 <br>
 
-## AZURE CLI - ACTIVE DIRECTORY
+## ACTIVE DIRECTORY
 
 * Crear service principal.
 
@@ -102,7 +102,7 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
 
 <br>
 
-## AZURE CLI - RESOURCES GROUP
+## RESOURCES GROUP
 * Crear grupo de recursos
     ```
     az group create --location eastus2 --name rg-demo
@@ -179,7 +179,7 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
         ```
 <br>
 
-## AZURE CLI - VIRTUAL MACHINE
+## VIRTUAL MACHINE
 * Obtener lista de imagenes vm. Obtiene una lista offlines de images
     ```
     az vm image list -o table
@@ -318,7 +318,7 @@ https://azure.microsoft.com/es-es/pricing/details/virtual-machines/series/
 
 <br>
 
-## AZURE CLI - APP SERVICES
+## APP SERVICES
 * Lista de runtimes 
     ```
     az webapp list-runtimes --os-type linux
@@ -415,7 +415,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
 
 <br>
 
-## AZURE CLI - AZURE SQL
+## AZURE SQL
 * Crear servidor de base de datos
     ```
     az sql server create --name srv-sql-demo --location eastus2 --resource-group rg-demo --admin-user admindemo --admin-password Demo12345678.
@@ -449,7 +449,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
 
 <br>
 
-## AZURE CLI - STORAGE ACCOUNT
+## AZURE STORAGE ACCOUNT
 
 
 * Lista de sku para storage account
@@ -483,7 +483,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
 
 <br>
 
-## AZURE CLI - AZURE FUNCTIONS
+## AZURE FUNCTIONS
 * Obtener la lista de runtimes
     ```
     az functionapp list-runtimes
@@ -495,7 +495,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
 
 <br>
 
-## AZURE CLI - AZURE CONTAINER REGISTRY(ACR)
+## AZURE CONTAINER REGISTRY(ACR)
 
 * Crear de ACR
     ```
@@ -601,7 +601,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
     ```
 <br>
 
-## AZURE CLI - AZURE CONTAINER INSTANCE(ACI)
+## AZURE CONTAINER INSTANCE(ACI)
 * Listar contenedores
     ```
     az container list --resource-group rg-demo --output table
