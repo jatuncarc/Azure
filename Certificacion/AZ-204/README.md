@@ -6,7 +6,9 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
 
 Ayuda
 
-```az --help```
+```
+az --help
+```
 
 loguear
 
