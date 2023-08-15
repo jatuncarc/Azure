@@ -315,3 +315,64 @@ https://prices.azure.com/api/retail/prices
 
 * Precios de máquinas virtuales:
 https://azure.microsoft.com/es-es/pricing/details/virtual-machines/series/
+
+<br>
+
+## AZURE CLI - APP SERVICES
+* Lista de runtimes 
+    ```
+    az webapp list-runtimes --os-type linux
+    ```
+
+* Crear AppService Plan(asp) con SKU F1(Free) y B1(Básico)
+    ```
+    az appservice plan create --name asp-demo --resource-group rg-demo --sku F1 
+    ```
+    ```
+    az appservice plan create --name asp-demo --resource-group rg-demo --sku B1 
+    ```
+
+
+    **Variantes:**
+	* Crea asp en location eastus2
+  
+        ```
+        az appservice plan create --name asp-demo2 --resource-group rg-demo --sku F1 -l eastus2 --no-wait
+        ```
+        > Si no se incluye el **location** toma la region del resource group y **--no-wait** es para no esperar a que termine la ejecución del comando en el terminal.
+
+
+* Lista de precios de app service:
+https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
+
+* Obtener lista de sku por api :
+    >Link Ref: https://learn.microsoft.com/en-us/rest/api/appservice/app-service-plans/get-server-farm-skus#code-try-0
+
+    >Link Ref: https://blog.jongallant.com/2017/11/azure-rest-apis-postman/
+
+    * Crear un service principal
+        ```
+        az ad sp create-for-rbac -n "authapp" --role Contributor --scopes /subscriptions/c8eb5574-f147-4230-978a-06596636cfee/resourceGroups/rg-demo
+        ```
+        > En el parámetro **scopes** se completa con el **subscriptionid** y nombre de recurso/grupo de recursos (rg-demo en este caso)
+
+    * En Postman generar un request GET 
+   
+     ![alt](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/img/GetTokenAuthAzure.png)
+    * d
+    *  
+
+* Listar app service plan
+az appservice plan list -o table
+
+* Crear web app
+az webapp create --name wapp-demo --resource-group rg-demo --plan asp-demo 
+
+* Listar webapps
+az webapp list -o table
+
+* Agregar appSettings
+az webapp config appsettings set --name wapp-demo --resource-group rg-demo --settings test="algo"
+
+* Para transmitir logs en directo
+az webapp log tail --name wapp-demo --resource-group rg-demo
