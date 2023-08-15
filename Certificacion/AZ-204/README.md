@@ -4,43 +4,44 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
 
 ## AZURE CLI - GENERAL
 
-- Ayuda
+* Ayuda
+  ```bash
+  az --help
+  ```
 
-```bash
-az --help
-```
+* Loguear
+    ```bash
+    az login
+    ```
 
-- loguear
+* Obtener información de la cuenta
 
-```bash
-az login
-```
+    ```bash
+    az account list -o table
+    ```
 
-Obtener información de la cuenta
+* Obtener lista de regiones azure
 
-```bash
-az account list -o table
-```
+    ```
+    az account list-locations -o table
+    ```
 
-Obtener lista de regiones azure
+* Obtener lista de recursos
 
-```
-az account list-locations -o table
-```
+    ```
+    az resource list -o table
+    ```
 
-Obtener lista de recursos
+* Obtener información de un recurso.
 
-```
-az resource list -o table
-```
-
-Obtener información de un recurso. El **ids** se puede obtener con el `az resource list -o json`:
-
-```
-az resource show --ids /subscriptions/c8eb5574-f147-4230-978a-06596636cfee/resourceGroups/rg-demo/providers/Microsoft.Sql/serv
-ers/srv-sql-demo
-```
-
+    ```
+    az resource show --ids /subscriptions/c8eb5574-f147-4230-978a-06596636cfee/resourceGroups/rg-demo/providers/Microsoft.Sql/serv
+    ers/srv-sql-demo
+    ```
+    >El valor del parámetro **ids** se puede obtener con el comando `az resource list -o json`
+  
+  
+  
 ## AZURE CLI - ACTIVE DIRECTORY
 
 Crear service principal, en scopes se completa con el subscriptionid y nombre de recurso/grupo de recursos. Del resultado custodiar las credenciales.
