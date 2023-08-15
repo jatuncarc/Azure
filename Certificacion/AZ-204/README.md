@@ -6,17 +6,21 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
 
 Ayuda
 
-```
+```bash
 az --help
 ```
 
 loguear
 
-`az login`
+```bash
+az login
+```
 
 Obtener información de la cuenta
 
-`az account list -o table`
+```bash
+az account list -o table
+```
 
 Obtener lista de regiones azure
 
@@ -34,7 +38,7 @@ ers/srv-sql-demo`
 
 The editor-produced Markdown output supports most essential features, like [links](https://ckeditor.com/), **different** kinds of _emphasis_, `inline code formatting`, or code blocks:
 
-```
+```bash
 p {
     text-align: center;
     color: red;
