@@ -2,7 +2,7 @@
 
 Este  documento consta comandos de **Azure CLI** principalmente para la gestión de recursos en Azure y otra información relevante que he registrado en este repositorio durante mi preparación para la certificación AZ-204.
 
-## GENERAL
+## :bulb: General
 
 * Ayuda
   ```bash
@@ -42,7 +42,7 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
 
 <br>
 
-## ACTIVE DIRECTORY
+## :bulb: Azure Active Directory
 
 * Crear service principal.
 
@@ -102,7 +102,7 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
 
 <br>
 
-## RESOURCES GROUP
+## :bulb: Resources Group
 * Crear grupo de recursos
     ```
     az group create --location eastus2 --name rg-demo
@@ -179,7 +179,7 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
         ```
 <br>
 
-## VIRTUAL MACHINE
+## :bulb: Azure Virtual Machine
 * Obtener lista de imagenes vm. Obtiene una lista offlines de images
     ```
     az vm image list -o table
@@ -318,7 +318,7 @@ https://azure.microsoft.com/es-es/pricing/details/virtual-machines/series/
 
 <br>
 
-## APP SERVICES
+## :bulb: Azure App Services
 * Lista de runtimes 
     ```
     az webapp list-runtimes --os-type linux
@@ -415,7 +415,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
 
 <br>
 
-## AZURE SQL
+## :bulb: Azure SQL
 * Crear servidor de base de datos
     ```
     az sql server create --name srv-sql-demo --location eastus2 --resource-group rg-demo --admin-user admindemo --admin-password Demo12345678.
@@ -449,7 +449,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
 
 <br>
 
-## AZURE STORAGE ACCOUNT
+## :bulb: Azure Storage Account
 
 
 * Lista de sku para storage account
@@ -483,7 +483,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
 
 <br>
 
-## AZURE FUNCTIONS
+## :bulb: Azure Functions
 * Obtener la lista de runtimes
     ```
     az functionapp list-runtimes
@@ -495,7 +495,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
 
 <br>
 
-## AZURE CONTAINER REGISTRY(ACR)
+## :bulb: Azure Container Registry(ACR)
 
 * Crear de ACR
     ```
@@ -601,7 +601,7 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
     ```
 <br>
 
-## AZURE CONTAINER INSTANCE(ACI)
+## :bulb: Azure Container Instance(ACI)
 * Listar contenedores
     ```
     az container list --resource-group rg-demo --output table
