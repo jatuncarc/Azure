@@ -4,13 +4,13 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
 
 ## AZURE CLI - GENERAL
 
-Ayuda
+- Ayuda
 
 ```bash
 az --help
 ```
 
-loguear
+- loguear
 
 ```bash
 az login
