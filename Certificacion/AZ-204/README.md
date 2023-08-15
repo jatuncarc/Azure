@@ -5,9 +5,11 @@ Este  documento consta comandos de **Azure CLI** principalmente para la gestión
 ## GENERAL
 
 Ayuda
-`az --help`
+
+```az --help```
 
 loguear
+
 `az login`
 
 Obtener información de la cuenta 
