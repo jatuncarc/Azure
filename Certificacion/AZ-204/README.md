@@ -24,23 +24,19 @@ az account list -o table
 
 Obtener lista de regiones azure
 
-`az account list-locations -o table`
+```
+az account list-locations -o table
+```
 
 Obtener lista de recursos
 
-`az resource list -o table`
+```
+az resource list -o table
+```
 
 Obtener información de un recurso. El **ids** se puede obtener con el `az resource list -o json`:
 
-`az resource show --ids /subscriptions/c8eb5574-f147-4230-978a-06596636cfee/resourceGroups/rg-demo/providers/Microsoft.Sql/serv
-ers/srv-sql-demo`
-
-
-The editor-produced Markdown output supports most essential features, like [links](https://ckeditor.com/), **different** kinds of _emphasis_, `inline code formatting`, or code blocks:
-
-```bash
-p {
-    text-align: center;
-    color: red;
-}
+```
+az resource show --ids /subscriptions/c8eb5574-f147-4230-978a-06596636cfee/resourceGroups/rg-demo/providers/Microsoft.Sql/serv
+ers/srv-sql-demo
 ```
