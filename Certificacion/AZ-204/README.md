@@ -356,23 +356,285 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
         ```
         > En el parámetro **scopes** se completa con el **subscriptionid** y nombre de recurso/grupo de recursos (rg-demo en este caso)
 
-    * En Postman generar un request GET 
+        El resultado del comando anterior será similar a:
+        ```json
+        {
+        "appId": "45311875-f708-44c4-944e-xxxxxxxxxxxx",
+        "displayName": "authapp",
+        "password": "A.t8Q~SvywgsMfP4o0p6xxxxxxxxxxxxxxU",
+        "tenant": "ee33e044-ed00-4025-bcad-xxxxxxxxxxxx"
+        }
+        ```
+
+
+    * En Postman generar un request **POST** para obtener el token de autorización para la consulta a la API correspondiente.
    
-     ![alt](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/img/GetTokenAuthAzure.png)
-    * d
-    *  
+        ![alt](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/img/GetTokenAuthAzure.png?raw=true)
+        
+        >**Url Request**: `https://login.microsoftonline.com/ee33e044-ed00-4025-bcad-634aa49588db/oauth2/token`. Como parte de la url colocar el **tenantId**
+        
+        > **Parámetros Body:**
+            > * **grant_type**: *client_credentials*
+            > * **client_id**: clientid(o appId) del service principal
+            > * **client_secret**: password del service principal
+            > * **resource**: *https://management.azure.com*
+
+    &nbsp;
+    * En Postman realizar un request **GET** a la API de consulta de sku:
+  
+        ![alt](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/img/SetQueryGetRequestSKU.png?raw=true)
+
+        > **Url Request**: `https://management.azure.com/subscriptions/c8eb5574-f147-4230-978a-06596636cfee/resourceGroups/rg-demo/providers/Microsoft.Web/serverfarms/asp-demo2/skus?api-version=2022-09-01`. Como parte de la url colocar el **subscriptionId**. El Parámetro **api-version** es un valor que microsoft proporciona.
+
+        > Configurar el **token** antes de realizar la consulta. ![](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/img/SetTokenAuthGetSKU.png?raw=true)
 
 * Listar app service plan
-az appservice plan list -o table
+    ```
+    az appservice plan list -o table
+    ```
 
 * Crear web app
-az webapp create --name wapp-demo --resource-group rg-demo --plan asp-demo 
+    ```
+    az webapp create --name wapp-demo --resource-group rg-demo --plan asp-demo
+    ```
 
 * Listar webapps
-az webapp list -o table
+    ```
+    az webapp list -o table
+    ```
 
 * Agregar appSettings
-az webapp config appsettings set --name wapp-demo --resource-group rg-demo --settings test="algo"
+    ```
+    az webapp config appsettings set --name wapp-demo --resource-group rg-demo --settings test="algo"
+    ```
 
 * Para transmitir logs en directo
-az webapp log tail --name wapp-demo --resource-group rg-demo
+    ```
+    az webapp log tail --name wapp-demo --resource-group rg-demo
+    ```
+
+<br>
+
+## AZURE CLI - AZURE SQL
+* Crear servidor de base de datos
+    ```
+    az sql server create --name srv-sql-demo --location eastus2 --resource-group rg-demo --admin-user admindemo --admin-password Demo12345678.
+    ```
+
+* Listar servidor sql 
+    ```
+    az sql server list -o table
+    ```
+
+* Configuracion firewall
+    ```
+    az sql server firewall-rule create --resource-group rg-demo --server srv-sql-demo -n AllowYourIp --start-ip-address 38.25.18.127 --end-ip-address 38.25.18.127
+    ```
+
+* Obtener listado de Objective service para el servidor de bd
+    ```powershell
+    Get-AzSqlServerServiceObjective -ResourceGroupName "rg-demo" -ServerName "srv-sql-demo"
+    ```
+    > Link Ref: https://learn.microsoft.com/es-es/powershell/module/az.sql/get-azsqlserverserviceobjective?view=azps-10.1.0
+
+* Crear base de datos
+    ```
+    az sql db create --resource-group rg-demo --server srv-sql-demo --name db-demo --edition Free --service-objective Free
+    ```
+
+* Listar base de datos del servidor
+    ```
+    az sql db list --server srv-sql-demo --resource-group rg-demo -o table
+    ```
+
+<br>
+
+## AZURE CLI - STORAGE ACCOUNT
+
+
+* Lista de sku para storage account
+
+    | Nombre | Tipos de cuenta admitidos | Descripción|
+    |--|--|--|
+    | Standard_LRS |Storage, BlobStorage, StorageV2|Almacenamiento con redundancia local estándar|
+    | Standard_GRS |Storage, BlobStorage, StorageV2|Almacenamiento con replicación geográfica estándar|
+    | Standard_RAGRS |Storage, BlobStorage, StorageV2|Almacenamiento replicado geográfica Read-Access estándar|
+    | Standard_ZRS |Storage, StorageV2|Almacenamiento con redundancia de zona estándar|
+    | Premium_LRS |	Storage, StorageV2, FileStorage, BlockBlobStorage|Almacenamiento con redundancia local de E/S aprovisionada|
+    | Premium_ZRS |Storage, StorageV2|Almacenamiento con redundancia local de E/S aprovisionada|
+    | Standard_GZRS |Storage, StorageV2|	Almacenamiento con redundancia local de E/S aprovisionada|
+    | Standard_RAGZRS |Storage, StorageV2|	Almacenamiento con redundancia local de E/S aprovisionada|
+
+    >Link Ref: https://learn.microsoft.com/es-es/rest/api/storagerp/srp_sku_types
+
+
+
+
+* Crear storage account para function. Para el nombre del storage solo usar letras minusculas y numeros
+
+    ```
+    az storage account create --name sacdemoaz204 --location eastus2 --resource-group rg-demo --sku Standard_LRS
+    ```
+
+* Levantar el proyecto functions en local desde termianl vscode
+    ```
+    func start
+    ```
+
+<br>
+
+## AZURE CLI - AZURE FUNCTIONS
+* Obtener la lista de runtimes
+    ```
+    az functionapp list-runtimes
+    ```
+* Crear function app
+    ```
+    az functionapp create --name myfunctiondemoaz204 --storage-account sacdemoaz204 --consumption-plan-location eastus2 --resource-group rg-demo --functions-version 4 --os-type Windows --runtime dotnet --runtime-version 6
+    ```
+
+<br>
+
+## AZURE CLI - AZURE CONTAINER REGISTRY(ACR)
+
+* Crear de ACR
+    ```
+    az acr create --resource-group rg-demo --name myacrdemoaz204 --sku Basic
+    ```
+
+    **Variantes:**
+	* Habilitar el usuario admin y crear el recurso en una región específica:
+        ```
+        az acr create --resource-group rg-demo --name myacrdemoaz204 --sku Basic --admin-enabled true --location eastus2
+        ```
+
+* Crear token de acceso al registry
+
+    ```
+    az acr login --name myacrdemoaz204.azurecr.io --expose-token --output tsv --query accessToken
+    ```
+
+    **Variantes:** 
+    * Para loguear mediante token desde docker:
+		* Con POWERSHELL
+		```powershell
+        $TOKENACR="$(az acr login --name myacrdemoaz204 --expose-token --output tsv --query accessToken)"
+        ```
+		```powershell
+		docker login myacrdemoaz204.azurecr.io -u 00000000-0000-0000-0000-000000000000 -p $TOKENACR
+        ```
+	
+		* Con CMD
+		```bat
+		for /f "delims=" %C in ('az acr login --name myacrdemoaz204 --expose-token --output tsv --query accessToken') do set "TOKENACR=%C"
+        ```
+		>Para verificar el resultado ejecutar: `echo %TOKENACR%`
+		
+		docker login myacrdemoaz204.azurecr.io -u 00000000-0000-0000-0000-000000000000 -p %TOKENACR%
+		
+		* Con BASH
+		```bash
+		TOKENACR=$(az acr login --name myacrdemoaz204 --expose-token --output tsv --query accessToken)
+		```
+        ```bash
+		docker login myacrdemoaz204.azurecr.io -u 00000000-0000-0000-0000-000000000000 -p $TOKENACR
+        ```
+
+* Loguear al acr
+    ```
+    az acr login --name myacrdemoaz204 
+    ```
+
+	>Tambien se puede usar: `docker login myacrdemoaz204.azurecr.io`
+
+    >**Nota**: Ambos comandos requieren tener el usuario admin habilitado para el registry. Y las credencias se encuentran en la opción "**claves de acceso**" del ACR visto desde el portal.
+
+* Tagear imagen docker con el nombre de inicio de sesion del acr.
+    ```
+    docker tag aspnetapp:latest myacrdemoaz204.azurecr.io/aspnetapp:latest
+    ```
+
+* Subir imagen a acr
+    ```
+    docker push myacrdemoaz204.azurecr.io/aspnetapp:latest
+    ```
+
+* Listar imagenes del acr
+    ```
+    az acr repository list --name myacrdemoaz204 --output table
+    ```
+
+* Habilitar el usuario administrador del registry
+    ```
+    az acr update -n myacrdemoaz204 --admin-enabled true
+    ```
+
+* Compilar,subir y ejecutar imagen al acr sin tener docker en local
+	* Crear dockerfile en local
+        ```powershell
+        echo "FROM mcr.microsoft.com/hello-world" > Dockerfile
+        ```
+	* Compilar y subir imagen al acr. Se tiene que estar situado en el directorio donde se encuentra el dockerfile
+        ```
+        az acr build --image sample/hello-world:v1 --registry myacrdemoaz204 --file Dockerfile .
+        ```
+	* Ejecutar contenedor
+        ```
+        az acr run --registry myacrdemoaz204 --cmd '$Registry/sample/hello-world:v1' /dev/null
+        ```
+
+* Importar y publicar la ultima imagen de Windows Core en el acr. 
+    ```
+    az acr import --name myacrdemoaz204 --source mcr.microsoft.com/windows/servercore:1607 --image windows/servercore:1607
+    ```
+    ```
+    az acr import --name myacrdemoaz204 --source mcr.microsoft.com/windows/servercore:1607 --image mirepo:1
+    ```
+    >El tag **latest** no se encuentra en el registry publico de microsoft. 
+
+    >El parámetro **image** es el nombre del repositorio y tag que se crea en el acr,se puede omitir y mantener el mismo nombre que el source o colocar un nombre y tag personalizado
+
+* Eliminar acr
+    ```
+    az acr delete -n myacrdemoaz204 -y
+    ```
+<br>
+
+## AZURE CLI - AZURE CONTAINER INSTANCE(ACI)
+* Listar contenedores
+    ```
+    az container list --resource-group rg-demo --output table
+    ```
+
+* Crear contenedor 
+    ```
+    az container create --resource-group rg-demo --name mycontainerdemoaz204 --image myacrdemoaz204.azurecr.io/aspnetapp:latest --dns-name-label mycontainerdemoaz204 --ports 80
+    ```
+
+    **Variantes:**
+    * Agregar parámetros de recursos como cpu y memoria
+        ```
+        az container create -g rg-demo –name mycontainerdemoaz204 –image myacrdemoaz204.azurecr.io/aspnetapp:latest —ip-address public –cpu 2 –memory 5
+        ```
+
+* Consultar contenedor aprovisionado
+    ```
+    az container show --resource-group rg-demo --name mycontainerdemoaz204 --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" --out table
+    ```
+
+* Consultar logs del contenedor
+    ```
+    az container logs --resource-group rg-demo --name mycontainerdemoaz204
+    ```
+
+* Eliminar el contenedor
+    ```
+    az container delete --resource-group rg-demo --name mycontainerdemoaz204
+    ```
+
+* Corre en local el contenedor del acr.
+
+    ```
+    docker run myacrdemoaz204.azurecr.io/aspnetapp:latest
+    ```
+    > Si no existe la imagen en local, la descarga, crea el contenedor y lo corre.
