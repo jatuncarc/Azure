@@ -1,0 +1,73 @@
+
+name: Build and deploy Node.js project to Azure Function App - functionsdemoappsNode
+
+# on:
+#   push:
+#     branches:
+#       - master
+#   workflow_dispatch:
+
+on:
+  workflow_call:
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./HelloWorld/js" # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: "16.x" # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  AZURE_FUNCTIONAPP_NAME: "functionsdemoappsNode" # Nombre del function app
+  # RESOURCE_GROUP_NAME: "functionsdemoappsNode_group" #Nombre del grupo de recursos donde se encuentra el function app
+  AZURE_SUBSCRIPTION_ID: "c8eb5574-f147-4230-978a-06596636cfee"
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v3
+
+      # If you want to use Azure RBAC instead of Publish Profile, then uncomment the task below
+      # - name: 'Login via Azure CLI'
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }} 
+
+
+      - name: Setup Node ${{ env.NODE_VERSION }} Environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: "Resolve Project Dependencies Using Npm"
+        shell: pwsh
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+          popd
+
+      # - name: Login via Az Module
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{secrets.AZURE_CREDENTIALS}}
+      #     # enable-AzPSSession: true
+
+      - name: Descargar el publish profile para el Function
+        id: az_funcapp_publishing_profile_x
+        run: |
+          echo "FUNCTION_APP_PUB_PROFILE=$(az functionapp deployment list-publishing-profiles --subscription $AZURE_SUBSCRIPTION_ID_2 --resource-group $FUNCTION_APP_RESOURCE_GROUP --name $FUNCTION_APP_NAME --xml)" >> $GITHUB_ENV
+
+        env:
+          # AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_SUBSCRIPTION_ID_2: ${{ env.AZURE_SUBSCRIPTION_ID }}
+          # FUNCTION_APP_RESOURCE_GROUP: ${{ env.RESOURCE_GROUP_NAME }}
+          FUNCTION_APP_RESOURCE_GROUP: "MyApps"
+          # FUNCTION_APP_NAME: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          FUNCTION_APP_NAME: "functionsdemoappsNode"
+
+      - name: "Run Azure Functions Action"
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ env.FUNCTION_APP_PUB_PROFILE }}
+          # publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}

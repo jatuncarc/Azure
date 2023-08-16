@@ -1,0 +1,15 @@
+poweshell
+azure cli
+
+=======================
+Modulo 1 - Identidad
+=======================
+-grupos dinamicos se puede usar con Azure Premium P1
+-Se pueden seleccionar propiestarios del grupo para que ayuden a administrar el grupo, aun cuando no es necesario que pertenezcan a dicho grupo
+
+=======================
+Modulo 3 - Administracion Azure
+=======================
+
+La version Core 6.0 de PowerShell es la que se utiliza para scripting en azure.
+

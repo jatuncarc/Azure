@@ -1,0 +1,49 @@
+name: Despliegue Principal
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  # Job "changes" es el job principal que contiene los filtros con los directorios que han sido cambiados
+  changes:
+    runs-on: ubuntu-latest
+    # Required permissions
+    permissions:
+      pull-requests: read
+    # Generar nombre de jobs dependiendo de los filtros
+    outputs:
+      hello-world-dotnet: ${{ steps.filter.outputs.hello-world-dotnet }}
+      hello-world-js: ${{ steps.filter.outputs.hello-world-js }}
+    steps:
+      # For pull requests it's not necessary to checkout the code
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            hello-world-dotnet:
+              - 'HelloWorld/dotnet/**'
+            hello-world-js :
+              - 'HelloWorld/js/**'
+
+  #***************************************************************************************#
+  # Job para despliegue Function HelloWord DotNet
+  #***************************************************************************************#
+  hello-world-dotnet:
+    needs: changes
+    if: ${{ needs.changes.outputs.hello-world-dotnet == 'true' }}
+    uses: ./.github/workflows/Hello-World-DotNet.yml
+    secrets: inherit #heredar los secretos del job principal a los secundarios
+
+  #***************************************************************************************#
+  # Job para despliegue Function HelloWord JavaScript
+  #***************************************************************************************#
+  hello-world-js:
+    needs: changes
+    if: ${{ needs.changes.outputs.hello-world-js == 'true' }}
+    uses: ./.github/workflows/Hello-World-Js.yml
+    secrets: inherit 

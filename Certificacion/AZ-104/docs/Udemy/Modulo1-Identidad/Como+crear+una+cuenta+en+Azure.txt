@@ -1,0 +1,3 @@
+Dirígete a este link, y sigue los pasos, recuerda necesitaras una tarjeta de crédito.
+
+https://docs.microsoft.com/es-es/learn/modules/create-an-azure-account/

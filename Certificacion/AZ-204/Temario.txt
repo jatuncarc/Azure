@@ -1,0 +1,26 @@
+--------
+TEMARIO
+--------
+
+
+- Azure Container Instance
+- Cosmos DB
+	-Almacenamiento sesiones asp net
+- Azure Redis
+	-patron cache-aside
+	-almacenamiento sesiones asp net
+	
+-App Services
+	-app linux
+	-app container
+	-slots
+	-poc planes appservices para ver sus features
+	-workers
+	
+
+-Azure Monitor
+
+-Azure Active Directory
+	-Diferencia app vs service principal
+	-RBAC
+	-Registro de applications
