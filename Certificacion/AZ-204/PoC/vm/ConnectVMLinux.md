@@ -55,6 +55,11 @@ Esta es un ejemplo de como obtener datos de una VM Linux para generar una conexi
   ./ConnectVMLinux.sh
   ```
 
-  :arrow_right: Se solicitará ingresar el password del usuario administrador, que es el mismo con el que aprovionó en este ejemplo líneas arriba.
+  ![alt](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/img/ConnectVMLinux.png?raw=true)
+
+
+  :arrow_right: Se solicitará ingresar el password del usuario administrador, que es el mismo con el que aprovisionó en este ejemplo líneas arriba.
+
+  ![alt](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/img/ConnectVMLinuxSuccess.png?raw=true)
 
   Y listo.
