@@ -24,10 +24,11 @@ Esta es un ejemplo de como obtener datos de una VM Linux para generar una conexi
   ```bash
   adminUser="$(az vm show -g rg-demo -n vmdemoaz204linux --query osProfile.adminUsername -o tsv)"
   ```
-> **Nota:** También se puede almacenar el resultado en una variable con el backtick `
-    >```bash
-    >adminUser=`az vm show -g rg-demo -n vmdemoaz204linux --query osProfile.adminUsername -o tsv`
-    >```
+> **Nota:** También se puede almacenar el resultado en una variable con el caracter backtick `
+    
+  ```
+      adminUser=`az vm show -g rg-demo -n vmdemoaz204linux --query osProfile.adminUsername -o tsv`
+  ```
 
   :arrow_right: Obtener mediante az cli la ip pública de la VM, y ese valor almacenarlo en la variable **publicIp**
   ```bash
