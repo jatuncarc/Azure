@@ -20,7 +20,41 @@ Esta es un ejemplo de como obtener datos de una VM Linux para generar una conexi
 
 ## :bulb: Script
 
-  :arrow_right: Tener aprovisionada una máquina virtual Linux(cualquier distribución) y tamaño.
+  :arrow_right: Obtener mediante az cli el username del usuario admin de la VM, y ese valor almacenarlo en la variable **adminUser**
   ```bash
   adminUser="$(az vm show -g rg-demo -n vmdemoaz204linux --query osProfile.adminUsername -o tsv)"
   ```
+> **Nota:** También se puede almacenar el resultado en una variable con el backtick `
+    >```bash
+    >adminUser=`az vm show -g rg-demo -n vmdemoaz204linux --query osProfile.adminUsername -o tsv`
+    >```
+
+  :arrow_right: Obtener mediante az cli la ip pública de la VM, y ese valor almacenarlo en la variable **publicIp**
+  ```bash
+  publicIp="$(az vm show -g rg-demo -n vmdemoaz204linux -d --query publicIps -o tsv)"
+  ```
+
+  :arrow_right: Remover(con tr) salto de linea y retorno de carro para poder concatenar y ejecutar la conexión por SSH.
+  ```bash
+  adminUser=$(echo $adminUser|tr -d '\n\r')
+  ```
+  ```bash
+  publicIp=$(echo $publicIp|tr -d '\n\r')
+  ```
+
+  :arrow_right: Conectar por ssh
+   ```bash
+  ssh $adminUser@$publicIp
+  ```
+
+   :arrow_right: Bien, ahora este código lo puedes colocar en un archivo .sh en la ubicación que desees. El archivo se encuentra :link: [aquí](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/PoC/vm/src/ConnectVMLinux.sh) para que lo descargues.
+
+   :arrow_right: Para probar basta con abrir el terminal y ejecutar el script, previamente situándose en la ruta actual donde se encuentra el script.
+
+  ```
+  ./ConnectVMLinux.sh
+  ```
+
+  :arrow_right: Se solicitará ingresar el password del usuario administrador, que es el mismo con el que aprovionó en este ejemplo líneas arriba.
+
+  Y listo.
