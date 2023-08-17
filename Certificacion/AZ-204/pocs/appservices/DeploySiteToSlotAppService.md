@@ -38,7 +38,7 @@ Esta es un ejemplo de cómo desplegar una web en un slot de appservices. Las fue
 
 ## :bulb: Automatizando el despliegue
 
-:arrow_right: Para automatizar este caso se puede tomar como referencia el siguiente código. :link: [Descargar](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/PoC/appservices/src/DeploySiteToSlotAppService.sh)
+:arrow_right: Para automatizar este caso se puede tomar como referencia el siguiente código. :link: [Descargar](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/pocs/appservices/src/DeploySiteToSlotAppService.sh)
 
 ```bash
 let "randomIdentifier=$RANDOM*$RANDOM"
@@ -88,5 +88,7 @@ Al ejecutar el archivo en un terminal bash arroja como resultado lo siguiente:
 Se muestra resaltado la url para probar el website desplegado:
 
 ![alt](https://github.com/jatuncarc/Azure/blob/master/Certificacion/AZ-204/img/DeployWebSiteToSlotScriptSuccess.png?raw=true)
+
+> **Link Ref**: https://learn.microsoft.com/es-es/azure/app-service/scripts/cli-deploy-staging-environment
 
   Y listo.
