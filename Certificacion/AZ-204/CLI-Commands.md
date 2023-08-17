@@ -331,7 +331,13 @@ https://azure.microsoft.com/es-es/pricing/details/virtual-machines/series/
     ```
     az appservice plan create --name asp-demo --resource-group rg-demo --sku B1 
     ```
+    > Si no se incluye el parámetro **sku** por defecto se creará con sku Basic Small(B1)
 
+    >Capa de precios:, e.g., F1(Free), D1(Shared), B1(Basic Small), B2(Basic Medium), B3(Basic Large), S1(Standard Small), P1V2(Premium V2 Small), P2V2(Premium V2 Medium), P3V2(Premium V2 Large), P0V3(Premium V3 Extra Small), P1V3(Premium V3  Small), P2V3(Premium V3 Medium), P3V3(Premium V3 Large), P1MV3(Premium Memory Optimized V3 Small), P2MV3(Premium Memory Optimized V3 Medium), P3MV3(Premium Memory Optimized V3 Large), P4MV3(Premium Memory Optimized V3 Extra Large), P5MV3(Premium Memory Optimized V3 Extra Extra Large), I1 (Isolated Small), I2 (Isolated Medium), I3 (Isolated Large), I1v2 (Isolated V2 Small), I2v2 (Isolated V2 Medium), I3v2 (Isolated V2 Large), I4v2 (Isolated V2 I4v2), I5v2 (Isolated V2 I5v2), I6v2 (Isolated V2 I6v2), WS1 (Logic Apps Workflow Standard 1), WS2 (Logic Apps Workflow Standard 2), WS3 (Logic Apps Workflow Standard 3).  
+
+    > Valores Permitidos para el párametro **sku**: B1, B2, B3, D1, F1, FREE, I1,                                     I1v2, I2, I2v2, I3, I3v2, I4v2, I5v2, I6v2, P0V3, P1MV3, P1V2,
+                                     P1V3, P2MV3, P2V2, P2V3, P3MV3, P3V2, P3V3, P4MV3, P5MV3, S1,
+                                     S2, S3, SHARED, WS1, WS2, WS3.  Default: B1.
 
     **Variantes:**
 	* Crea asp en location eastus2
@@ -396,6 +402,18 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
 * Crear web app
     ```
     az webapp create --name wapp-demo --resource-group rg-demo --plan asp-demo
+    ```
+
+* Crear slot.
+    ```
+    az webapp deployment slot create --name wapp-demo --resource-group rg-demo --slot staging
+    ```
+    > Para crear un slot adicional al de por defecto. Es necesario que el app service plan tenga un sku Standar(S1) como mínimo.
+
+* Desplegar una aplicación desde un repositorio GitHub a un slot
+    ```
+    az webapp deployment source config --name wapp-demo --resource-group rg-demo --slot staging --repo-url https://github.com/adamajammary/simple-web-app-mvc-dotnet --branch master --manual-integration
+
     ```
 
 * Listar webapps
@@ -639,3 +657,22 @@ https://azure.microsoft.com/es-es/pricing/details/app-service/windows/
     docker run myacrdemoaz204.azurecr.io/aspnetapp:latest
     ```
     > Si no existe la imagen en local, la descarga, crea el contenedor y lo corre.
+
+## :bulb: Azure Service Bus
+* Crear un namespace de mensajeria service bus
+  
+    ```
+    az servicebus namespace create --resource-group rg-demo --name MyDemoServiceBusNS --location eastus2
+    ```
+    > Tambien se puede incluir el parámetro **sku** y sus valores permitidos son **Basic, Premium, Standard**. Por defecto es **Standard** si no se incluye este parámetro
+    
+    ```
+    az servicebus namespace create --resource-group rg-demo --name MyDemoServiceBusNS --location eastus2 --sku Basic
+    ```
+
+* Crear una cola en el namespace del service bus
+    ```
+    az servicebus queue create --resource-group rg-demo --namespace-name MyDemoServiceBusNS --name MyDemoServiceBusQueue
+    ```
+
+* 
